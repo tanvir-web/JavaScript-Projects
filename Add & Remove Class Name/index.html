@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .hide-item{
+      height: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      position: relative;
+    }
+    .hide-item:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, white 100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-8 mx-auto">
+        <p class="excerpt-length hide-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, incidunt in! Nesciunt assumenda deserunt error omnis eum magnam itaque id ex cumque aperiam animi odio minus repudiandae corporis, quisquam rerum provident pariatur voluptate dignissimos. Ab animi inventore nostrum neque maiores voluptatibus ducimus expedita magni sunt perspiciatis fugiat in obcaecati quam impedit dolor debitis voluptatem iste commodi eos ad veritatis vero, optio autem quod. Blanditiis dolorem natus hic sed adipisci quam iste quidem at. Minima mollitia velit praesentium dolore, doloremque magni ea libero maxime, fuga, illum rem corrupti blanditiis. Accusamus et temporibus, animi quisquam aliquam nesciunt tempore architecto optio ut quasi?</p>
+        <button class="button">Show More</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const button = document.querySelector('.button');
+    const excerptLenght = document.querySelector('.excerpt-length');
+
+    button.addEventListener('click', function() {
+      if(excerptLenght.classList.contains('hide-item')){
+        excerptLenght.classList.remove('hide-item');
+        this.innerHTML = "Show Less";
+      } else{
+        excerptLenght.classList.add('hide-item');
+        this.innerHTML = "Show More";
+      };
+    });
+  </script>
+</body>
+</html>
