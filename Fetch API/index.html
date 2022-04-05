@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <style type="text/css">
+      h1 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mb-5 text-center">
+      <h2>Photo Album</h2>
+      <div
+        class="content row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-3"
+      ></div>
+    </div>
+    <div class="container mb-5 text-center">
+      <h2>Bitcoin Price</h2>
+      <p>Date: <span class="current-date"></span></p>
+      <div
+        class="main-content row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-3"
+      ></div>
+    </div>
+    <script>
+      "use strict";
+
+      const contentBox = document.querySelector(".content");
+
+      fetch("https://picsum.photos/v2/list")
+        .then((response) => response.json())
+        .then((data) => {
+          const photoList = data;
+          console.log(photoList);
+          for (const items of photoList) {
+            const item = `
+              <div class="col">
+                <div class="">
+                  <figure>
+                    <img src="" alt="" class="img-fluid">
+                  </figure>
+                  <div class="text-center">
+                    <h2 class="fs-6">${items.author}</h2>
+                    <a href="${items.url}" class="btn btn-info">Download</a>
+                  </div>
+                </div>
+              </div>
+            `;
+            contentBox.insertAdjacentHTML("afterbegin", item);
+            // console.log(items.author);
+          }
+        });
+
+      // Method 2
+
+      const content = document.querySelector(".main-content");
+      const currentDate = document.querySelector(".current-date");
+
+      const url = "https://api.coindesk.com/v1/bpi/currentprice.json";
+      async function fetchApi() {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        const prices = data.bpi;
+        const date = data.time.updated;
+
+        currentDate.insertAdjacentHTML("afterbegin", date);
+
+        for (const [currency, moreData] of Object.entries(prices)) {
+          var fixAmount = parseFloat(moreData.rate_float).toFixed(2);
+          const displayPrice = `
+              <div class="col">
+                <div class="border shadow-sm rounded text-center p-3">
+                  <h2 class="fs-5 fw-bold">${currency} Price</h2>
+                  <p class="mb-0">
+                    <span class="fs-1 fw-bolder">${fixAmount}</span>
+                    <span class="fs-5">${moreData.symbol}</span>
+                  </p>
+                </div>
+              </div>
+            `;
+          content.insertAdjacentHTML("afterbegin", displayPrice);
+        }
+      }
+
+      fetchApi();
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
